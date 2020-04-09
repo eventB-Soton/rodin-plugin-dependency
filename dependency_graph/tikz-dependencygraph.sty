@@ -1,3 +1,4 @@
+\RequirePackage{xparse}
 \RequirePackage{etoolbox}
 \RequirePackage{colourSoton}
 \RequirePackage{tikz}
@@ -6,94 +7,97 @@
 
 \newcommand{\tikzDepGrph@ifstrequal}{\expandafter\ifstrequal\expandafter}
 
-% 1. Additional node decoration
-% 2. Absolute position (x, y)
-% 3. Base colour
-% 4. Label
-% 5. Feature name
-% 6. Feature version number
-\newcommand{\tikzDepGrph@FeatureAbsolutePosition}[6]{
-  \node[
-  draw,
-  very thick,
-  align=center,
-  shade,
-  top color=#3!30,
-  bottom color=#3!5,
-  blur shadow={shadow blur steps=5,shadow blur extra
-    rounding=1.3pt}, #1
-  ] at #2 (#4) {#5\\(#6)};%
-}
 
-% 1. Additional node decoration
-% 2. Relative position
-% 3. Base colour
-% 4. Label
-% 5. Feature name
-% 6. Feature version number
-\newcommand{\tikzDepGrph@FeatureRelativePosition}[6]{
+% 1. (m) Label
+% 2. (m) Relative location (empty to ignore)
+% 3. (m) Location in (x, y)-format (only use if #2 is empty
+% 4. (m) Feature name
+% 5. (m) Feature version number
+% 6. (m) Node additional decoration
+% 7. (m) Base colour
+% 8. (O{}) Line shaped
+\NewDocumentCommand{\tikzDepGrph@Feature}{ m m m m m m m O{} }{%
+  \tikzDepGrph@ifstrequal{#2}{}{ % Absolute location
     \node[
     draw,
     very thick,
+    rounded corners,
     align=center,
     shade,
-    top color=#3!30,
-    bottom color=#3!5,
+    top color=#7!30,
+    bottom color=#7!5,
     blur shadow={shadow blur steps=5,shadow blur extra
-      rounding=1.3pt}, #2, #1
-    ] (#4) {#5\\(#6)};%
+      rounding=1.3pt}, #6, #8
+    ] (#1) at (#3) {#4\\(#5)};%
+  }{% Relative location
+    \node[
+    draw,
+    very thick,
+    rounded corners,
+    align=center,
+    shade,
+    top color=#7!30,
+    bottom color=#7!5,
+    blur shadow={shadow blur steps=5,shadow blur extra
+      rounding=1.3pt}, #2, #6, #8
+    ] (#1) {#4\\(#5)};%
+  }
 }
 
-% 1. Additional node decoration
-% 2. Relative position 
-% 3. Location in (x, y)-format, ignore if relative position is used
-% 4. Base colour
-% 5. Label
-% 6. Feature name
-% 7. Feature version number
-\newcommand{\tikzDepGrph@Feature}[7]{
-  \tikzDepGrph@ifstrequal{#2}{}{%
-    \tikzDepGrph@FeatureAbsolutePosition{#1}{#3}{#4}{#5}{#6}{#7}
-  }{%
-    \tikzDepGrph@FeatureRelativePosition{#1}{#2}{#4}{#5}{#6}{#7}
+% 1. (o{p}) Type of feature: p -- published, u -- unpublished, e -- external 
+% 2. (m) Label
+% 3. (O{}) Relative location
+% 4. d() Location in (x, y)-format
+% 5. (m) Feature name
+% 6. (m) Feature version number
+% 7. (o) Node additional decoration
+\NewDocumentCommand{\tikzFeature}{ O{p} m O{} d() m m O{} }{
+  \tikzDepGrph@ifstrequal{#1}{p}{ % Published
+    \tikzDepGrph@Feature{#2}{#3}{#4}{#5}{#6}{#7}{sotonMarineBlue}
+  }{
+    \tikzDepGrph@ifstrequal{#1}{u}{ % Unpublished
+      \tikzDepGrph@Feature{#2}{#3}{#4}{#5}{#6}{#7}{sotonRed}[dotted]
+    }{ % External
+      \tikzDepGrph@ifstrequal{#1}{e}{ %
+        \tikzDepGrph@Feature{#2}{#3}{#4}{#5}{#6}{#7}{sotonGrey}[dashed]
+      }{ % Error
+      \GenericError{[tikzdepgrph] }{Bad input}%
+                            {[tikzdepgrph] Only p or u allowed as the
+                              type of the feature}
+                            {Please read the documentation}%%%        
+      }
+    }
+  }
+}
+
+
+% 1. Dependent feature
+% 2. Parent feature
+\NewDocumentCommand{\tikzDepGrph@PublishedDependency}{ m m }{%
+  \draw[->, very thick, red] (#1) -- (#2);%
+}%
+
+% 1. (m) Dependent feature
+% 2. (m) Parent feature
+\NewDocumentCommand{\tikzDepGrph@UnpublishedDependency}{ m m }{%
+  \draw[->, dashed, very thick, red] (#1) -- (#2);%
+}%
+
+
+% 1. (O{p}) Type: p -- published, u -- unpublished
+% 2. (m) Dependent feature
+% 3. (m) Parent feature
+\NewDocumentCommand{\tikzDependency}{ O{p} m m }{%
+  \tikzDepGrph@ifstrequal{#1}{p}{% Published
+    \tikzDepGrph@PublishedDependency{#2}{#3}%
+  }{% Unpublished
+    \tikzDepGrph@ifstrequal{#1}{u}{%
+      \tikzDepGrph@UnpublishedDependency{#2}{#3}%
+    }{ % Error
+      \GenericError{[tikzdepgrph] }{Bad input}%
+                            {[tikzdepgrph] Only p or u allowed as the type
+                              of the dependency}%
+                            {Please read the documentation}%%%
+    }%
   }%
-}
-
-% 1. Relative position
-% 2. Location in (x, y)-format
-% 3. Label
-% 4. Feature name
-% 5. Feature version number
-\newcommand{\tikzFeature}[5][]{
-  \tikzDepGrph@Feature{rounded corners}{#1}{#2}{sotonMarineBlue}{#3}{#4}{#5}
-}
-
-% 1. Node additional decoration (Optional) 
-% 2. Label
-% 3. Location in (x, y)-format
-% 4. Feature name
-% 5. Feature version number
-\newcommand{\tikzUnpublishedFeature}[5][]{
-  \tikzDepGrph@Feature{dashed, rounded corners}{#1}{#2}{sotonRed}{#3}{#4}{#5}
-}
-
-% 1. Node additional decoration (Optional) 
-% 2. Label
-% 3. Location in (x, y)-format
-% 4. Feature name
-% 5. Feature version number
-\newcommand{\tikzExternalFeature}[5][]{
-  \tikzDepGrph@Feature{dotted, rounded corners}{#1}{#2}{sotonYellow}{#3}{#4}{#5}
-}
-
-% 1. Dependent feature
-% 2. Parent feature
-\newcommand{\tikzDependency}[2]{
-  \draw[->, very thick, red] (#1) -- (#2);
-}
-
-% 1. Dependent feature
-% 2. Parent feature
-\newcommand{\tikzUnpublishedDependency}[2]{
-  \draw[->, dashed, very thick, red] (#1) -- (#2);
-}
+}%

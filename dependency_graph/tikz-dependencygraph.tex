@@ -5,111 +5,111 @@
 
 \begin{tikzpicture}
   % Level 0
-  \tikzFeature{(0,0)}{EventBUtils}{Event-B\\Utilities}{0.2.4}
-
-  \tikzExternalFeature[right=of EventBUtils]{}{AtelierB}{Aterlier-B Prover}{2.2.1}
+  \tikzFeature{EventBUtils} (0,0) {Event-B\\Utilities} {0.2.4}
+  \tikzFeature[e]{AtelierB} [right=of EventBUtils] {Aterlier-B Prover}
+  {2.2.1}
 
   % Level 1
-  \tikzFeature[below=of EventBUtils]{}{EMFEventB}{EMF Event-B}{6.0.0}
+  \tikzFeature{EMFEventB}[below=of EventBUtils]{EMF Event-B}{6.0.0}
   \tikzDependency{EMFEventB}{EventBUtils}
 
-  \tikzFeature[right=of EMFEventB]{}{Translator}{EMF Translator}{3.0.0}
+  \tikzFeature{Translator}[right=of EMFEventB]{EMF Translator}{3.0.0}
 
-  % % Level 2
-  \tikzFeature[below=of EMFEventB]{}{EventBExt}{EMF
-    Event-B\\Extensions}{6.0.0}
+  % Level 2
+  \tikzFeature {EventBExt}[below=of EMFEventB]
+  {EMF Event-B\\Extensions}{6.0.0}
   \tikzDependency{EventBExt}{EMFEventB}
 
-  \tikzFeature[below right=of Translator]{}{EventBTranslator}{Event-B\\Translator Support}{0.0.1}
+  \tikzFeature{EventBTranslator}[below right=of Translator]
+  {Event-B\\Translator Support}{0.0.1}
   \tikzDependency{EventBTranslator}{EMFEventB}
   \tikzDependency{EventBTranslator}{Translator}
 
-  % % Level 3
-  \tikzFeature[below=of EventBExt]{}{Diagrams}{iUML-B Diagrams}{7.0.0}
+  % Level 3
+  \tikzFeature{Diagrams}[below=of EventBExt]{iUML-B Diagrams}{7.0.0}
   \tikzDependency{Diagrams}{EventBExt}
   \tikzDependency{Diagrams}{EventBTranslator}
 
-  \tikzFeature[left =of Diagrams]{}{Rose}{Rose Editor}{1.7.0}
+  \tikzFeature{Rose}[left =of Diagrams]{Rose Editor}{1.7.0}
   \tikzDependency{Rose}{EventBExt}
 
-  \tikzFeature[right =of Diagrams]{}{EMFInclusion}{EMF Inclusion}{1.0.0}
+  \tikzFeature{EMFInclusion}[right =of Diagrams]{EMF Inclusion}{1.0.0}
   \tikzDependency{EMFInclusion}{EventBExt}
 
   % Level 4
-  \tikzFeature[below =of Diagrams]{}{SMD}{iUML-B\\State-machine Diagrams}{4.0.0}
+  \tikzFeature{SMD}[below =of Diagrams]{iUML-B\\State-machine Diagrams}{4.0.0}
   \tikzDependency{SMD}{Diagrams}
 
-  \tikzExternalFeature[right=of SMD]{}{ProB}{ProB for Rodin 3}{3.0.10}
+  \tikzFeature[e]{ProB}[right=of SMD]{ProB for Rodin 3}{3.0.10}
 
-  \tikzUnpublishedFeature[right =of ProB]{}{EMFContainment}{EMF Containment}{x.x.x}
+  \tikzFeature[u]{EMFContainment}[right =of ProB]{EMF Containment}{x.x.x}
   \tikzDependency{EMFContainment}{Diagrams}
 
-  \tikzFeature[right =of EMFContainment]{}{XEventB}{XEvent-B}{1.0.0}
+  \tikzFeature{XEventB}[right =of EMFContainment]{XEvent-B}{1.0.0}
   \tikzDependency{XEventB}{EMFInclusion}
   \tikzDependency{XEventB}{EMFContainment}
 
-  \tikzFeature[right =of XEventB]{}{Decomposition}{EMF Event-B\\Decomposition}{0.1.0}
+  \tikzFeature{Decomposition}[right =of XEventB]{EMF Event-B\\Decomposition}{0.1.0}
   \tikzDependency{Decomposition}{EventBTranslator}
 
-  \tikzFeature[left=of SMD]{}{CD}{iUML-B\\Class Diagrams}{2.0.1}
+  \tikzFeature{CD}[left=of SMD]{iUML-B\\Class Diagrams}{2.0.1}
   \tikzDependency{CD}{Diagrams}
-  \tikzUnpublishedDependency{CD}{SMD}
+  \tikzDependency[u]{CD}{SMD}
 
-  \tikzExternalFeature[left=of CD]{}{ProB2}{ProB2 for Rodin 3}{x.x.x}
+  \tikzFeature[e]{ProB2}[left=of CD]{ProB2 for Rodin 3}{x.x.x}
 
   % \tikzDependency{Decomposition}{EMFInclusion}{1.0.0}
 
   % Level 5
-  \tikzFeature[below =of SMD]{}{SMAnim1}{State-machine\\Animation 1}{2.5.0}
+  \tikzFeature{SMAnim1}[below =of SMD]{State-machine\\Animation 1}{2.5.0}
   \tikzDependency{SMAnim1}{SMD}
   \tikzDependency{SMAnim1}{ProB}
 
-  \tikzUnpublishedFeature[left =of SMAnim1]{}{SMAnim2}{State-machine\\Animation 2}{x.x.x}
-  \tikzUnpublishedDependency{SMAnim2}{SMD}
-  \tikzUnpublishedDependency{SMAnim2}{ProB2}
+  \tikzFeature[u]{SMAnim2}[left =of SMAnim1]{State-machine\\Animation 2}{x.x.x}
+  \tikzDependency[u]{SMAnim2}{SMD}
+  \tikzDependency[u]{SMAnim2}{ProB2}
 
-  \tikzFeature[right =of SMAnim1]{}{CompD}{CODA\\Component Diagrams}{6.0.1}
+  \tikzFeature{CompD}[right =of SMAnim1]{CODA\\Component Diagrams}{6.0.1}
   \tikzDependency{CompD}{Decomposition}
   
-  \tikzFeature[below =of CompD]{}{CODAOracle}{CODA Oracle}{1.2.1}
+  \tikzFeature{CODAOracle}[below =of CompD]{CODA Oracle}{1.2.1}
   \tikzDependency{CODAOracle}{CompD}
 
-  \tikzFeature[left =of CODAOracle]{}{CODAUtils}{CODA Utilities}{---}
+  \tikzFeature{CODAUtils}[left =of CODAOracle]{CODA Utilities}{---}
   \tikzDependency{CODAUtils}{CompD}
 
-  \tikzFeature[left =of CODAUtils]{}{CODAUI}{CODA UI}{0.1.1}
+  \tikzFeature{CODAUI}[left =of CODAUtils]{CODA UI}{0.1.1}
   \tikzDependency{CODAUI}{CompD}
 
-  \tikzFeature[below =of CODAOracle]{}{Simulator1}{CODA Simulator 1}{3.0.1}
+  \tikzFeature{Simulator1}[below =of CODAOracle]{CODA Simulator 1}{3.0.1}
   \tikzDependency{Simulator1}{CODAUI}
   \tikzDependency{Simulator1}{CODAOracle}
   \tikzDependency{Simulator1}{CODAUtils}
   \tikzDependency{Simulator1}{SMAnim1}
 
-  \tikzUnpublishedFeature[left =of Simulator1]{}{Simulator2}{Simulator 2}{x.x.x}
-  \tikzUnpublishedDependency{Simulator2}{CODAUI}
-  \tikzUnpublishedDependency{Simulator2}{CODAOracle}
-  \tikzUnpublishedDependency{Simulator2}{CODAUtils}
-  \tikzUnpublishedDependency{Simulator2}{SMAnim2}
+  \tikzFeature[u]{Simulator2}[left =of Simulator1]{Simulator 2}{x.x.x}
+  \tikzDependency[u]{Simulator2}{CODAUI}
+  \tikzDependency[u]{Simulator2}{CODAOracle}
+  \tikzDependency[u]{Simulator2}{CODAUtils}
+  \tikzDependency[u]{Simulator2}{SMAnim2}
 
-  \tikzFeature[left =of Simulator2]{}{VHDL}{VHDL Generator}{0.0.5}
+  \tikzFeature{VHDL}[left =of Simulator2]{VHDL Generator}{0.0.5}
   \tikzDependency{VHDL}{CODAUI}
 
-  \tikzUnpublishedFeature[right =of CompD]{}{Documentor}{iUML-B Documentor}{xxx}
+  \tikzFeature[u]{Documentor}[right =of CompD]{iUML-B Documentor}{xxx}
 
-  \tikzUnpublishedFeature[right =of Documentor]{}{QualProb}{Qualitative Probablity}{xxx}
+  \tikzFeature[u]{QualProb}[right =of Documentor]{Qualitative Probablity}{xxx}
 
-  \tikzUnpublishedFeature[right =of QualProb]{}{Theory}{Theory Feature}{xxx}
+  \tikzFeature[u]{Theory}[right =of QualProb]{Theory Feature}{xxx}
 
-  \tikzUnpublishedFeature[right =of Theory]{}{Records}{Records}{xxx}
+  \tikzFeature[u]{Records}[right =of Theory]{Records}{xxx}
 
-  \tikzUnpublishedFeature[right =of Records]{}{ProofSupport}{Proof Support}{xxx}
+  \tikzFeature[u]{ProofSupport}[right =of Records]{Proof Support}{xxx}
 
-  \tikzUnpublishedFeature[right =of
-  ProofSupport]{}{ScenarioChecker}{Scenario Checker}{xxx}
+  \tikzFeature[u]{ScenarioChecker}[right =of ProofSupport]{Scenario Checker}{xxx}
+
 \end{tikzpicture}
 \end{document}
-
 
 
 
