@@ -1,0 +1,20 @@
+language: generic
+
+before_install:
+  - sudo apt-get update 
+  - sudo apt-get install texlive-full # full texlive installation
+  - curl -O -L https://raw.githubusercontent.com/tshoang/dpctex/master/numdef/numdef.sty # Get numdef.sty from a fork of David Carlisle.
+
+script:
+  - ./gradlew all
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - /tmp/texlive
+    - $HOME/.texlive
