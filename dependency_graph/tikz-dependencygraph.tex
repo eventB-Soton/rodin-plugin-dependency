@@ -4,10 +4,14 @@
 \begin{document}
 
 \begin{tikzpicture}
+  \tikzFeature{PubFtr} (-10,0) {Published Feature} {x.x.x}
+  \tikzFeature[u]{UnpubFtr} [below = of PubFtr] {Unpublished Feature} {x.x.x}
+  \tikzFeature[e]{ExtFtr} [below = of UnpubFtr] {External Feature} {x.x.x}
+
   % Level 0
   \tikzFeature{EventBUtils} (0,0) {Event-B\\Utilities} {0.2.4}
-  \tikzFeature[e]{AtelierB} [right=of EventBUtils] {Aterlier-B Prover}
-  {2.2.1}
+  \tikzFeature{Theory}[right =of EventBUtils]{Theory Feature}{4.0.0RC1}
+  \tikzFeature[e]{AtelierB} [right=of Theory] {Aterlier-B Prover}{2.2.1}
 
   % Level 1
   \tikzFeature{EMFEventB}[below=of EventBUtils]{EMF Event-B}{6.0.0}
@@ -36,6 +40,10 @@
   \tikzFeature{EMFInclusion}[right =of Diagrams]{EMF Inclusion}{1.0.0}
   \tikzDependency{EMFInclusion}{EventBExt}
 
+  \tikzFeature[u]{Records}[right =of EMFInclusion]{Records}{0.1.0}
+  \tikzDependency{Records}{EventBExt}
+
+
   % Level 4
   \tikzFeature{SMD}[below =of Diagrams]{iUML-B\\State-machine Diagrams}{4.0.0}
   \tikzDependency{SMD}{Diagrams}
@@ -48,6 +56,7 @@
   \tikzFeature{XEventB}[right =of EMFContainment]{XEvent-B}{1.0.0}
   \tikzDependency{XEventB}{EMFInclusion}
   \tikzDependency{XEventB}{EMFContainment}
+  \tikzDependency{XEventB}{Records}
 
   \tikzFeature{Decomposition}[right =of XEventB]{EMF Event-B\\Decomposition}{0.1.0}
   \tikzDependency{Decomposition}{EventBTranslator}
@@ -100,13 +109,15 @@
 
   \tikzFeature[u]{QualProb}[right =of Documentor]{Qualitative Probablity}{xxx}
 
-  \tikzFeature[u]{Theory}[right =of QualProb]{Theory Feature}{xxx}
-
-  \tikzFeature[u]{Records}[right =of Theory]{Records}{xxx}
-
-  \tikzFeature[u]{ProofSupport}[right =of Records]{Proof Support}{xxx}
+  \tikzFeature[u]{ProofSupport}[below =of Documentor]{Proof Support}{xxx}
 
   \tikzFeature[u]{ScenarioChecker}[right =of ProofSupport]{Scenario Checker}{xxx}
+
+  \tikzFeature[u]{XUMLB}[right =of ScenarioChecker]{XUML-B}{xxx}
+
+  \tikzFeature[u]{ERS}[below =of ProofSupport]{ERS/Activity Diagrams}{xxx}
+
+  \tikzFeature[u]{MultiSim}[right =of ERS]{Multi-simulation}{xxx}
 
 \end{tikzpicture}
 \end{document}
