@@ -1,0 +1,103 @@
+\RequirePackage{xparse}
+\RequirePackage{etoolbox}
+\RequirePackage{colourSoton}
+\RequirePackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows.blur}
+
+\newcommand{\tikzDepGrph@ifstrequal}{\expandafter\ifstrequal\expandafter}
+
+
+% 1. (m) Label
+% 2. (m) Relative location (empty to ignore)
+% 3. (m) Location in (x, y)-format (only use if #2 is empty
+% 4. (m) Feature name
+% 5. (m) Feature version number
+% 6. (m) Node additional decoration
+% 7. (m) Base colour
+% 8. (O{}) Line shaped
+\NewDocumentCommand{\tikzDepGrph@Feature}{ m m m m m m m O{} }{%
+  \tikzDepGrph@ifstrequal{#2}{}{ % Absolute location
+    \node[
+    draw,
+    very thick,
+    rounded corners,
+    align=center,
+    shade,
+    top color=#7!30,
+    bottom color=#7!5,
+    blur shadow={shadow blur steps=5,shadow blur extra
+      rounding=1.3pt}, #6, #8
+    ] (#1) at (#3) {#4\\(#5)};%
+  }{% Relative location
+    \node[
+    draw,
+    very thick,
+    rounded corners,
+    align=center,
+    shade,
+    top color=#7!30,
+    bottom color=#7!5,
+    blur shadow={shadow blur steps=5,shadow blur extra
+      rounding=1.3pt}, #2, #6, #8
+    ] (#1) {#4\\(#5)};%
+  }
+}
+
+% 1. (o{p}) Type of feature: p -- published, u -- unpublished, e -- external 
+% 2. (m) Label
+% 3. (O{}) Relative location
+% 4. d() Location in (x, y)-format
+% 5. (m) Feature name
+% 6. (m) Feature version number
+% 7. (o) Node additional decoration
+\NewDocumentCommand{\tikzFeature}{ O{p} m O{} d() m m O{} }{
+  \tikzDepGrph@ifstrequal{#1}{p}{ % Published
+    \tikzDepGrph@Feature{#2}{#3}{#4}{#5}{#6}{#7}{sotonMarineBlue}
+  }{
+    \tikzDepGrph@ifstrequal{#1}{u}{ % Unpublished
+      \tikzDepGrph@Feature{#2}{#3}{#4}{#5}{#6}{#7}{sotonRed}[dotted]
+    }{ % External
+      \tikzDepGrph@ifstrequal{#1}{e}{ %
+        \tikzDepGrph@Feature{#2}{#3}{#4}{#5}{#6}{#7}{sotonGrey}[dashed]
+      }{ % Error
+      \GenericError{[tikzdepgrph] }{Bad input}%
+                            {[tikzdepgrph] Only p or u allowed as the
+                              type of the feature}
+                            {Please read the documentation}%%%        
+      }
+    }
+  }
+}
+
+
+% 1. Dependent feature
+% 2. Parent feature
+\NewDocumentCommand{\tikzDepGrph@PublishedDependency}{ m m }{%
+  \draw[->, very thick, red] (#1) -- (#2);%
+}%
+
+% 1. (m) Dependent feature
+% 2. (m) Parent feature
+\NewDocumentCommand{\tikzDepGrph@UnpublishedDependency}{ m m }{%
+  \draw[->, dashed, very thick, red] (#1) -- (#2);%
+}%
+
+
+% 1. (O{p}) Type: p -- published, u -- unpublished
+% 2. (m) Dependent feature
+% 3. (m) Parent feature
+\NewDocumentCommand{\tikzDependency}{ O{p} m m }{%
+  \tikzDepGrph@ifstrequal{#1}{p}{% Published
+    \tikzDepGrph@PublishedDependency{#2}{#3}%
+  }{% Unpublished
+    \tikzDepGrph@ifstrequal{#1}{u}{%
+      \tikzDepGrph@UnpublishedDependency{#2}{#3}%
+    }{ % Error
+      \GenericError{[tikzdepgrph] }{Bad input}%
+                            {[tikzdepgrph] Only p or u allowed as the type
+                              of the dependency}%
+                            {Please read the documentation}%%%
+    }%
+  }%
+}%

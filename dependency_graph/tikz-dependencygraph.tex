@@ -1,0 +1,117 @@
+\documentclass{standalone}
+
+\usepackage{tikz-dependencygraph}
+\begin{document}
+
+\begin{tikzpicture}
+  % Level 0
+  \tikzFeature{EventBUtils} (0,0) {Event-B\\Utilities} {0.2.4}
+  \tikzFeature[e]{AtelierB} [right=of EventBUtils] {Aterlier-B Prover}
+  {2.2.1}
+
+  % Level 1
+  \tikzFeature{EMFEventB}[below=of EventBUtils]{EMF Event-B}{6.0.0}
+  \tikzDependency{EMFEventB}{EventBUtils}
+
+  \tikzFeature{Translator}[right=of EMFEventB]{EMF Translator}{3.0.0}
+
+  % Level 2
+  \tikzFeature {EventBExt}[below=of EMFEventB]
+  {EMF Event-B\\Extensions}{6.0.0}
+  \tikzDependency{EventBExt}{EMFEventB}
+
+  \tikzFeature{EventBTranslator}[below right=of Translator]
+  {Event-B\\Translator Support}{0.0.1}
+  \tikzDependency{EventBTranslator}{EMFEventB}
+  \tikzDependency{EventBTranslator}{Translator}
+
+  % Level 3
+  \tikzFeature{Diagrams}[below=of EventBExt]{iUML-B Diagrams}{7.0.0}
+  \tikzDependency{Diagrams}{EventBExt}
+  \tikzDependency{Diagrams}{EventBTranslator}
+
+  \tikzFeature{Rose}[left =of Diagrams]{Rose Editor}{1.7.0}
+  \tikzDependency{Rose}{EventBExt}
+
+  \tikzFeature{EMFInclusion}[right =of Diagrams]{EMF Inclusion}{1.0.0}
+  \tikzDependency{EMFInclusion}{EventBExt}
+
+  % Level 4
+  \tikzFeature{SMD}[below =of Diagrams]{iUML-B\\State-machine Diagrams}{4.0.0}
+  \tikzDependency{SMD}{Diagrams}
+
+  \tikzFeature[e]{ProB}[right=of SMD]{ProB for Rodin 3}{3.0.10}
+
+  \tikzFeature[u]{EMFContainment}[right =of ProB]{EMF Containment}{x.x.x}
+  \tikzDependency{EMFContainment}{Diagrams}
+
+  \tikzFeature{XEventB}[right =of EMFContainment]{XEvent-B}{1.0.0}
+  \tikzDependency{XEventB}{EMFInclusion}
+  \tikzDependency{XEventB}{EMFContainment}
+
+  \tikzFeature{Decomposition}[right =of XEventB]{EMF Event-B\\Decomposition}{0.1.0}
+  \tikzDependency{Decomposition}{EventBTranslator}
+
+  \tikzFeature{CD}[left=of SMD]{iUML-B\\Class Diagrams}{2.0.1}
+  \tikzDependency{CD}{Diagrams}
+  \tikzDependency[u]{CD}{SMD}
+
+  \tikzFeature[e]{ProB2}[left=of CD]{ProB2 for Rodin 3}{x.x.x}
+
+  % \tikzDependency{Decomposition}{EMFInclusion}{1.0.0}
+
+  % Level 5
+  \tikzFeature{SMAnim1}[below =of SMD]{State-machine\\Animation 1}{2.5.0}
+  \tikzDependency{SMAnim1}{SMD}
+  \tikzDependency{SMAnim1}{ProB}
+
+  \tikzFeature[u]{SMAnim2}[left =of SMAnim1]{State-machine\\Animation 2}{x.x.x}
+  \tikzDependency[u]{SMAnim2}{SMD}
+  \tikzDependency[u]{SMAnim2}{ProB2}
+
+  \tikzFeature{CompD}[right =of SMAnim1]{CODA\\Component Diagrams}{6.0.1}
+  \tikzDependency{CompD}{Decomposition}
+  
+  \tikzFeature{CODAOracle}[below =of CompD]{CODA Oracle}{1.2.1}
+  \tikzDependency{CODAOracle}{CompD}
+
+  \tikzFeature{CODAUtils}[left =of CODAOracle]{CODA Utilities}{---}
+  \tikzDependency{CODAUtils}{CompD}
+
+  \tikzFeature{CODAUI}[left =of CODAUtils]{CODA UI}{0.1.1}
+  \tikzDependency{CODAUI}{CompD}
+
+  \tikzFeature{Simulator1}[below =of CODAOracle]{CODA Simulator 1}{3.0.1}
+  \tikzDependency{Simulator1}{CODAUI}
+  \tikzDependency{Simulator1}{CODAOracle}
+  \tikzDependency{Simulator1}{CODAUtils}
+  \tikzDependency{Simulator1}{SMAnim1}
+
+  \tikzFeature[u]{Simulator2}[left =of Simulator1]{Simulator 2}{x.x.x}
+  \tikzDependency[u]{Simulator2}{CODAUI}
+  \tikzDependency[u]{Simulator2}{CODAOracle}
+  \tikzDependency[u]{Simulator2}{CODAUtils}
+  \tikzDependency[u]{Simulator2}{SMAnim2}
+
+  \tikzFeature{VHDL}[left =of Simulator2]{VHDL Generator}{0.0.5}
+  \tikzDependency{VHDL}{CODAUI}
+
+  \tikzFeature[u]{Documentor}[right =of CompD]{iUML-B Documentor}{xxx}
+
+  \tikzFeature[u]{QualProb}[right =of Documentor]{Qualitative Probablity}{xxx}
+
+  \tikzFeature[u]{Theory}[right =of QualProb]{Theory Feature}{xxx}
+
+  \tikzFeature[u]{Records}[right =of Theory]{Records}{xxx}
+
+  \tikzFeature[u]{ProofSupport}[right =of Records]{Proof Support}{xxx}
+
+  \tikzFeature[u]{ScenarioChecker}[right =of ProofSupport]{Scenario Checker}{xxx}
+
+\end{tikzpicture}
+\end{document}
+
+
+
+
+

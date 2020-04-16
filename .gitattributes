@@ -1,0 +1,6 @@
+*.jpg filter=lfs diff=lfs merge=lfs
+*.jar filter=lfs diff=lfs merge=lfs
+*.pdf filter=lfs diff=lfs merge=lfs
+*.ppt filter=lfs diff=lfs merge=lfs
+*.pptx filter=lfs diff=lfs merge=lfs
+*.zip filter=lfs diff=lfs merge=lfs
