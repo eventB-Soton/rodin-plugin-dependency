@@ -37,7 +37,9 @@
   \tikzFeature{Rose}[left =of Diagrams]{Rose Editor}{1.7.0}
   \tikzDependency{Rose}{EventBExt}
 
-  \tikzFeature{EMFInclusion}[right =of Diagrams]{EMF Inclusion}{1.0.0}
+  \tikzFeature[e]{ProB}[right=of Diagrams]{ProB for Rodin 3}{3.0.10}
+
+  \tikzFeature{EMFInclusion}[right =of ProB]{EMF Inclusion}{1.0.0}
   \tikzDependency{EMFInclusion}{EventBExt}
 
   \tikzFeature[u]{Records}[right =of EMFInclusion]{Records}{0.1.0}
@@ -48,9 +50,10 @@
   \tikzFeature{SMD}[below =of Diagrams]{iUML-B\\State-machine Diagrams}{4.0.0}
   \tikzDependency{SMD}{Diagrams}
 
-  \tikzFeature[e]{ProB}[right=of SMD]{ProB for Rodin 3}{3.0.10}
-
-  \tikzFeature[u]{EMFContainment}[right =of ProB]{EMF Containment}{x.x.x}
+  \tikzFeature[u]{AnimMan}[right =of SMD]{Animation Manager}{xxx}
+  \tikzDependency{AnimMan}{ProB}
+  
+  \tikzFeature[u]{EMFContainment}[right =of AnimMan]{EMF Containment}{x.x.x}
   \tikzDependency{EMFContainment}{Diagrams}
 
   \tikzFeature{XEventB}[right =of EMFContainment]{XEvent-B}{1.0.0}
@@ -72,13 +75,13 @@
   % Level 5
   \tikzFeature{SMAnim1}[below =of SMD]{State-machine\\Animation 1}{2.5.0}
   \tikzDependency{SMAnim1}{SMD}
-  \tikzDependency{SMAnim1}{ProB}
+  \tikzDependency{SMAnim1}{AnimMan}
 
   \tikzFeature[u]{SMAnim2}[left =of SMAnim1]{State-machine\\Animation 2}{x.x.x}
   \tikzDependency[u]{SMAnim2}{SMD}
   \tikzDependency[u]{SMAnim2}{ProB2}
 
-  \tikzFeature{CompD}[right =of SMAnim1]{CODA\\Component Diagrams}{6.0.1}
+  \tikzFeature{CompD}[below right =of AnimMan]{CODA\\Component Diagrams}{6.0.1}
   \tikzDependency{CompD}{Decomposition}
   
   \tikzFeature{CODAOracle}[below =of CompD]{CODA Oracle}{1.2.1}
@@ -94,9 +97,9 @@
   \tikzDependency{Simulator1}{CODAUI}
   \tikzDependency{Simulator1}{CODAOracle}
   \tikzDependency{Simulator1}{CODAUtils}
-  \tikzDependency{Simulator1}{SMAnim1}
+  \tikzDependency{Simulator1}{AnimMan}
 
-  \tikzFeature[u]{Simulator2}[left =of Simulator1]{Simulator 2}{x.x.x}
+  \tikzFeature[u]{Simulator2}[below left =of CODAUtils]{Simulator 2}{x.x.x}
   \tikzDependency[u]{Simulator2}{CODAUI}
   \tikzDependency[u]{Simulator2}{CODAOracle}
   \tikzDependency[u]{Simulator2}{CODAUtils}
@@ -108,8 +111,6 @@
   \tikzFeature[u]{Documentor}[right =of CompD]{iUML-B Documentor}{xxx}
 
   \tikzFeature[u]{QualProb}[right =of Documentor]{Qualitative Probablity}{xxx}
-
-  \tikzFeature[u]{AnimMan}[right =of QualProb]{Animation Manager}{xxx}
 
   \tikzFeature[u]{ProofSupport}[below =of Documentor]{Proof Support}{xxx}
 
